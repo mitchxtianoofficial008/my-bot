@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mitch Christiano • Bot Dashboard</title>
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;background:radial-gradient(circle at top,#18284a,#050812 55%);color:#fffff}
+.wrap{max-width:1050px;margin:auto;padding:28px 18px}.glass{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(18px);border-radius:24px;box-shadow:0 20px 70px #0007}
+header{padding:28px;display:flex;align-items:center;gap:18px} .logo{width:80px;height:70px;border-radius:400px;background:linear-gradient(135deg,#00e5ff,#3b82f6,#8b5cf6);display:grid;place-items:center;font-weight:900;font-size:18px}
+h1{margin:0;font-size:30px}p{opacity:.75}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px;margin-top:18px}.card{padding:20px}.value{font-size:30px;font-weight:800;margin-top:8px}.label{opacity:.65}.ok{display:inline-flex;gap:8px;align-items:center}.dot{width:9px;height:9px;border-radius:50%;background:#46f28a;box-shadow:0 0 14px #46f28a}
+small{opacity:.55}
+</style>
+</head>
+<body><main class="wrap">
+<header class="glass"><div class="logo"><centre>MCO</centre></div><div><h1 id="name">MITCH CHRISTIANO AI CHAT BOT CYPHER</h1><p class="ok"><span class="dot"></span><span id="state">Loading…</span></p></div></header>
+<section class="grid">
+<div class="glass card"><div class="label">Uptime</div><div class="value" id="uptime">—</div></div>
+<div class="glass card"><div class="label">Messages</div><div class="value" id="messages">—</div></div>
+<div class="glass card"><div class="label">Commands</div><div class="value" id="commands">—</div></div>
+<div class="glass card"><div class="label">AI</div><div class="value" id="ai">—</div></div>
+</section>
+<section class="glass card" style="margin-top:18px"><h2>Bot Center</h2><p>WhatsApp connection, command statistics and configuration status.</p><small><marquee>Use <b>.menu</b> in WhatsApp to open the command center.</marquee></small></section>
+</main>
+<script>
+function fmt(s){s=Math.floor(s);let d=Math.floor(s/86400);s%=86400;let h=Math.floor(s/3600);s%=3600;let m=Math.floor(s/60);return `${d}d ${h}h ${m}m`}
+async function refresh(){try{let r=await fetch('/api/status');let x=await r.json();name.textContent=x.name;state.textContent='Dashboard online • v'+x.version;uptime.textContent=fmt(x.uptime);messages.textContent=x.messages;commands.textContent=x.commands;ai.textContent=x.aiConfigured?'Connected':'Ready to configure'}catch{state.textContent='Dashboard unavailable'}}
+refresh();setInterval(refresh,5000)
+</script>
+</body></html>
